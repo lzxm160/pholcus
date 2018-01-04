@@ -1,0 +1,49 @@
+﻿<Spider>
+    <Name>www.etherchain.org</Name>
+    <Description>www.etherchain.org</Description>
+    <Pausetime>1000</Pausetime>
+    <EnableLimit>false</EnableLimit>
+    <EnableCookie>true</EnableCookie>
+    <EnableKeyin>false</EnableKeyin>
+    <NotDefaultField>false</NotDefaultField>
+    <Namespace>
+        <Script></Script>
+    </Namespace>
+    <SubNamespace>
+        <Script></Script>
+    </SubNamespace>
+    <Root>
+        <Script param="ctx">
+        ctx.JsAddQueue({
+            Url: "httpswww.etherchain.org",
+            Rule: "homepage"
+        });
+        </Script>
+    </Root>
+    <Rule name="homepage">
+        <AidFunc>
+            <Script param="ctx,aid">
+            </Script>
+        </AidFunc>
+        <ParseFunc>
+            <Script param="ctx">
+			var query = ctx.GetDom();
+			var adom = query.Find("div card-group");
+			var alen = adom.Length()
+			var i = 0;
+			while(true){
+				var nowhref = adom.Slice(i,i+1).Attr("href");
+				
+				ctx.JsAddQueue({
+					Url: nowhref[0],
+					Rule: "wenzhang"
+				});
+				
+				console.log(nowhref[0]+"    "+i);
+				i=i+1;
+			}
+            </Script>
+        </ParseFunc>
+    </Rule>
+	
+</Spider>
